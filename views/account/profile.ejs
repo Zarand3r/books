@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <div class="form-header">
+      <h3>Profile Information</h3>
+    </div>
+    <form class="form-horizontal" action="/account/profile" method="POST">
+      <input type="hidden" name="_csrf"/>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="email">Email</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="email" name="email" id="email" value=<%=user.email %>/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="name">Name</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="name" id="name" value=<%=user.profile.name %>/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="gender">Gender</label>
+        <div class="col-sm-6">
+          <label class="radio col-sm-3">
+            <input type="radio" name="gender" value="male" checked =<%=user.profile.gender=='male'%> data-toggle="radio"/><span>Male</span>
+          </label>
+          <label class="radio col-sm-3">
+            <input type="radio" name="gender" value="female" checked =<%=user.profile.gender=='female'%> data-toggle="radio"/><span>Female</span>
+          </label>
+          <label class="radio col-sm-3">
+            <input type="radio" name="gender" value="other" checked =<%=user.profile.gender=='other'%> data-toggle="radio"/><span>Other</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="location">Location</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="location" id="location" value=<%=user.profile.location %>/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="website">Website</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="website" id="website" value=<%=user.profile.website %>/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="gravatar">Gravatar</label>
+        <div class="col-sm-4"><img class="profile" src="#{user.gravatar()}" width="100" height="100"/></div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-4">
+          <button class="btn btn btn-primary" type="submit"><i class="fa fa-pencil"></i>Update Profile</button>
+        </div>
+      </div>
+    </form>
+    <div class="form-header">
+      <h3>Change Password</h3>
+    </div>
+    <form class="form-horizontal" action="/account/password" method="POST">
+      <input type="hidden" name="_csrf"/>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="password">New Password</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="password" name="password" id="password"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="confirmPassword">Confirm Password</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="password" name="confirmPassword" id="confirmPassword"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-4">
+          <button class="btn btn-primary" type="submit"><i class="fa fa-lock"></i>Change Password</button>
+        </div>
+      </div>
+    </form>
+    <div class="form-header">
+      <h3>Delete Account</h3>
+    </div>
+    <form class="form-horizontal" action="/account/delete" method="POST">
+      <div class="form-group">
+        <p class="col-sm-offset-3 col-sm-4">You can delete your account, but keep in mind this action is irreversible.</p>
+        <input type="hidden" name="_csrf"/>
+        <div class="col-sm-offset-3 col-sm-4">
+          <button class="btn btn-danger" type="submit"><i class="fa fa-trash"></i>Delete my account</button>
+        </div>
+      </div>
+    </form>
+    <div class="form-header">
+      <h3>Linked Accounts</h3>
+    </div>
+    <div class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-4">
+          <p><a href="/auth/instagram">Link your Instagram account</a></p>
+        </div>
+        <div class="col-sm-offset-3 col-sm-4">
+          <p><a href="/auth/google">Link your Google account</a></p>
+        </div>
+        <div class="col-sm-offset-3 col-sm-4">
+          <p><a href="/auth/facebook">Link your Facebook account</a></p>
+        </div>
+        <div class="col-sm-offset-3 col-sm-4">
+          <p><a href="/auth/twitter">Link your Twitter account</a></p>
+        </div>
+        <!-- .col-sm-offset-3.col-sm-4-->
+        <!-- if user.github-->
+        <!-- p: a.text-danger(href='/account/unlink/github') Unlink your GitHub account-->
+        <!-- else-->
+        <!--  p: a(href='/auth/github') Link your GitHub account-->
+        <div class="col-sm-offset-3 col-sm-4">
+          <p><a href="/auth/linkedin">Link your LinkedIn account</a></p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+        <!-- <% include ../partials/footer %> -->
+    </footer>
+    <% include ../partials/foot %>
+</body>
+</html>

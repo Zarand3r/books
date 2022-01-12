@@ -1,0 +1,7 @@
+<!-- <% for (error in messages.errors) { %>
+  <%= JSON.stringify(messages.errors) %>
+<% } %> -->
+
+<% (messages.errors || []).forEach(function(error) { %>
+    <p><%=error.msg%></p>
+<% }) %>
