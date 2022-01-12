@@ -26,8 +26,11 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views')); //path for views
 app.set('view engine', 'ejs');
 
-//Mongodb databse connection
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+//Mongodb database connection
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI, {
+  useNewUrlParser: true
+});
+
 mongoose.connection.on('error',function (err) {
   console.log('Mongoose default connection error: ' + err);
 });
