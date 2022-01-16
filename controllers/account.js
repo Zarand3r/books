@@ -32,6 +32,7 @@ exports.postLogin = function(req, res, next)  {
 
     if (!errors.isEmpty()) {
         req.flash('errors', errors);
+        console.log(errors);
         return res.redirect('/account/login');
     }
 
@@ -41,6 +42,7 @@ exports.postLogin = function(req, res, next)  {
         }
         if (!user) {
             req.flash('errors', info);
+            console.log(info);
             return res.redirect('/account/login');
         }
         req.logIn(user, function(err) {
@@ -95,7 +97,6 @@ exports.postSignup = function(req, res, next)  {
         console.log(errors);
         return res.redirect('/account/signup');
     }
-
     const user = new User({
         email: req.body.email,
         password: req.body.password
