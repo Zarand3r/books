@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
+const { check, validationResult } = require('express-validator');
 
 /**
  * GET /login
@@ -22,15 +23,14 @@ exports.getLogin = function(req, res)  {
  * Sign in using email and password.
  */
 exports.postLogin = function(req, res, next)  {
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('password', 'Password cannot be blank').notEmpty();
-    req.sanitize('email').normalizeEmail({
+    check('email', 'Email is not valid').isEmail().normalizeEmail({
         remove_dots: false
     });
+    check('password', 'Password cannot be blank').notEmpty();
 
-    const errors = req.validationErrors();
+    const errors = validationResult(req);
 
-    if (errors) {
+    if (!errors.isEmpty()) {
         req.flash('errors', errors);
         return res.redirect('/account/login');
     }
@@ -82,17 +82,17 @@ exports.getSignup = function(req, res)  {
  * Create a new local account.
  */
 exports.postSignup = function(req, res, next)  {
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
-    req.sanitize('email').normalizeEmail({
+    check('email', 'Email is not valid').isEmail().normalizeEmail({
         remove_dots: false
     });
+    check('password', 'Password must be at least 4 characters long').isLength({ min: 4 });
+    check('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
-    const errors = req.validationErrors();
+    const errors = validationResult(req);
 
-    if (errors) {
+    if (!errors.isEmpty()) {
         req.flash('errors', errors);
+        console.log(errors);
         return res.redirect('/account/signup');
     }
 
@@ -139,14 +139,13 @@ exports.getAccount = function(req, res)  {
  * Update profile information.
  */
 exports.postUpdateProfile = function(req, res, next)  {
-    req.assert('email', 'Please enter a valid email address.').isEmail();
-    req.sanitize('email').normalizeEmail({
+    check('email', 'Please enter a valid email address.').isEmail().normalizeEmail({
         remove_dots: false
     });
 
-    const errors = req.validationErrors();
+    const errors = validationResult(req);
 
-    if (errors) {
+    if (!errors.isEmpty()) {
         req.flash('errors', errors);
         return res.redirect('/account');
     }
@@ -183,12 +182,12 @@ exports.postUpdateProfile = function(req, res, next)  {
  * Update current password.
  */
 exports.postUpdatePassword = function(req, res, next)  {
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+    check('password', 'Password must be at least 4 characters long').isLength({ min: 4 });
+    check('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
-    const errors = req.validationErrors();
+    const errors = validationResult(req);
 
-    if (errors) {
+    if (!errors.isEmpty()) {
         req.flash('errors', errors);
         return res.redirect('/account');
     }
@@ -287,12 +286,12 @@ exports.getReset = function(req, res, next)  {
  * Process the reset password request.
  */
 exports.postReset = function(req, res, next)  {
-    req.assert('password', 'Password must be at least 4 characters long.').len(4);
-    req.assert('confirm', 'Passwords must match.').equals(req.body.password);
+    check('password', 'Password must be at least 4 characters long.').isLength({ min: 4 });
+    check('confirm', 'Passwords must match.').equals(req.body.password);
 
-    const errors = req.validationErrors();
+    const errors = validationResult(req);
 
-    if (errors) {
+    if (!errors.isEmpty()) {
         req.flash('errors', errors);
         return res.redirect('back');
     }
@@ -374,14 +373,13 @@ exports.getForgot = function(req, res)  {
  * Create a random token, then the send user an email with a reset link.
  */
 exports.postForgot = function(req, res, next)  {
-    req.assert('email', 'Please enter a valid email address.').isEmail();
-    req.sanitize('email').normalizeEmail({
+    check('email', 'Please enter a valid email address.').isEmail().normalizeEmail({
         remove_dots: false
     });
 
-    const errors = req.validationErrors();
+    const errors = validationResult(req);
 
-    if (errors) {
+    if (!errors.isEmpty()) {
         req.flash('errors', errors);
         return res.redirect('/forgot');
     }

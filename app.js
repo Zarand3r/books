@@ -1,6 +1,7 @@
 //Initialize
 const express = require('express');
 const expressValidator = require('express-validator');
+const errorHandler = require('errorhandler');
 const passport = require('passport');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -75,10 +76,12 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(errorHandler());
+
 //Load routes
 require('./routes')(app);
 
 //Start server
 var server = app.listen(app.get('port'), function() {
-  console.log('App started');
+  console.log(`App started on port ${app.get('port')}`);
 });
