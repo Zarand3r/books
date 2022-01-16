@@ -108,6 +108,7 @@ exports.postSignup = function(req, res, next)  {
             req.flash('errors', {
                 msg: 'Account with that email address already exists.'
             });
+            console.log(errors);
             return res.redirect('/account/signup');
         }
         user.save(function(err) {
@@ -147,6 +148,7 @@ exports.postUpdateProfile = function(req, res, next)  {
 
     if (!errors.isEmpty()) {
         req.flash('errors', errors);
+        console.log(errors);
         return res.redirect('/account');
     }
 
@@ -165,6 +167,7 @@ exports.postUpdateProfile = function(req, res, next)  {
                     req.flash('errors', {
                         msg: 'The email address you have entered is already associated with an account.'
                     });
+                    console.log(errors);
                     return res.redirect('/account');
                 }
                 return next(err);
@@ -189,6 +192,7 @@ exports.postUpdatePassword = function(req, res, next)  {
 
     if (!errors.isEmpty()) {
         req.flash('errors', errors);
+        console.log(errors);
         return res.redirect('/account');
     }
 
@@ -273,6 +277,7 @@ exports.getReset = function(req, res, next)  {
                 req.flash('errors', {
                     msg: 'Password reset token is invalid or has expired.'
                 });
+                console.log(errors);
                 return res.redirect('/forgot');
             }
             res.render('account/reset', {
@@ -293,6 +298,7 @@ exports.postReset = function(req, res, next)  {
 
     if (!errors.isEmpty()) {
         req.flash('errors', errors);
+        console.log(errors);
         return res.redirect('back');
     }
 
@@ -311,6 +317,7 @@ exports.postReset = function(req, res, next)  {
                         req.flash('errors', {
                             msg: 'Password reset token is invalid or has expired.'
                         });
+                        console.log(errors);
                         return res.redirect('back');
                     }
                     user.password = req.body.password;
@@ -381,6 +388,7 @@ exports.postForgot = function(req, res, next)  {
 
     if (!errors.isEmpty()) {
         req.flash('errors', errors);
+        console.log(errors);
         return res.redirect('/forgot');
     }
 
@@ -399,6 +407,7 @@ exports.postForgot = function(req, res, next)  {
                     req.flash('errors', {
                         msg: 'Account with that email address does not exist.'
                     });
+                    console.log(errors);
                     return res.redirect('/forgot');
                 }
                 user.passwordResetToken = token;

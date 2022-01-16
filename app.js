@@ -28,7 +28,7 @@ app.set('views', path.join(__dirname, 'views')); //path for views
 app.set('view engine', 'ejs');
 
 //Mongodb database connection
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI, {
+mongoose.connect(process.env.MONGODB_URI || process.env.LOCAL_URI, {
   useNewUrlParser: true
 });
 
@@ -49,7 +49,7 @@ app.use(session({ //creates session, saved to by passport
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
+        mongoUrl: process.env.MONGODB_URI || process.env.LOCAL_URI,
         autoReconnect: true
     })
 }));
